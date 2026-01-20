@@ -1,0 +1,164 @@
+/* ------------------- ESTILO GENERAL ------------------- */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #84fab0, #8fd3f4);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+/* ------------------- TARJETA PRINCIPAL ------------------- */
+.card {
+  background: white;
+  padding: 30px;
+  width: 420px;
+  border-radius: 25px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+h1 {
+  font-size: 36px;
+  color: #2a9d8f;
+  margin: 0;
+}
+
+.subtitle {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.rut-ayuda {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* ------------------- BOTONES ------------------- */
+.botones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn {
+  padding: 14px;
+  border-radius: 15px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+/* Colores distintos para cada botón */
+.btn.entrada { background-color: #2a9d8f; }       /* Verde Entrada */
+.btn.salida { background-color: #e63946; }        /* Rojo Salida */
+.btn.e_almuerzo { background-color: #f4a261; }    /* Naranja E-Almuerzo */
+.btn.s_almuerzo { background-color: #6a4c93; }    /* Morado S-Almuerzo */
+
+/* Hover y activo */
+.btn:hover { filter: brightness(1.1); }
+.btn:active,
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+  background-color: inherit;
+  filter: brightness(0.95);
+}
+
+/* ------------------- HISTORIAL ------------------- */
+.registros {
+  margin-top: 25px;
+}
+
+.registro {
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  color: white;
+  font-size: 14px;
+}
+
+/* Colores historial por tipo */
+.registro.entrada { background-color: #2a9d8f; }
+.registro.salida { background-color: #e63946; }
+.registro.e_almuerzo { background-color: #f4a261; }
+.registro.s_almuerzo { background-color: #6a4c93; }
+
+.tipo { font-weight: bold; }
+.hora { font-size: 13px; }
+
+/* ------------------- DASHBOARD PRO ------------------- */
+.contenedor {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  width: 95%;
+  max-width: 1000px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+#rutBuscar {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 200px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: #2a9d8f;
+  color: white;
+  font-weight: bold;
+}
+
+/* Tabla dashboard */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+table th {
+  background-color: #2a9d8f;
+  color: white;
+}
+
+table td span {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+}
+
+/* Colores de cada tipo en el dashboard */
+.entrada { background-color: #2a9d8f; }
+.e_almuerzo { background-color: #f4a261; }
+.s_almuerzo { background-color: #6a4c93; }
+.salida { background-color: #e63946; }

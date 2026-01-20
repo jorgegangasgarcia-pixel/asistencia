@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Dashboard Asistencia</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    h1 { text-align: center; color: #264653; margin-bottom: 20px; }
+    .dashboard-container { max-width: 1200px; margin: auto; margin-top: 30px; }
+    #filtros { text-align: center; margin-bottom: 20px; }
+    #mes, #rutFiltro { padding: 8px; border-radius: 8px; border: 1px solid #ccc; margin-right: 10px; }
+    #buscar, #exportar { 
+      background-color: #2a9d8f; 
+      color: white; 
+      font-weight: bold; 
+      cursor: pointer; 
+      padding: 8px 15px; 
+      border: none; 
+      border-radius: 8px; 
+      margin-right: 5px;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    table th, table td { padding: 10px; text-align: center; border: 1px solid #ccc; font-size: 14px; }
+    table th { background-color: #264653; color: white; }
+    .completo { background-color: #2a9d8f; color: white; border-radius: 6px; padding: 4px 6px; }
+    .incompleto { background-color: #e76f51; color: white; border-radius: 6px; padding: 4px 6px; }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <h1>📊 Dashboard Admin Asistencia</h1>
+
+  <div id="filtros">
+    <input type="month" id="mes" value="2026-01">
+    <input type="text" id="rutFiltro" placeholder="Filtrar por RUT (opcional)">
+    <button id="buscar">Buscar</button>
+    <button id="exportar">Exportar a Excel</button>
+  </div>
+
+  <table id="tablaAdmin">
+    <thead>
+      <tr>
+        <th>RUT</th>
+        <th>Nombre</th>
+        <th>Días Trabajados</th>
+        <th>Horas Trabajadas</th>
+        <th>Horas No Trabajadas</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+let datosFiltrados = []; // guardamos los datos filtrados para exportar
+
+async function cargarAdmin() {
+  const mes = document.getElementById('mes').value;
+  const filtroRUT = document.getElementById('rutFiltro').value.trim().toUpperCase();
+
+  if (!mes) return;
+
+  const res = await fetch(`/resumen-mensual/${mes}`);
+  const datos = await res.json();
+
+  datosFiltrados = []; // reset
+
+  const tbody = document.querySelector('#tablaAdmin tbody');
+  tbody.innerHTML = '';
+
+  datos.forEach(d => {
+    if (filtroRUT && !d.rut.includes(filtroRUT)) return;
+
+    datosFiltrados.push(d); // guardamos para exportar
+
+    const tr = document.createElement('tr');
+    const estadoHoras = d.horas_no_trabajadas > 0 ? 'incompleto' : 'completo';
+
+    tr.innerHTML = `
+      <td>${d.rut}</td>
+      <td>${d.nombre}</td>
+      <td>${d.dias_trabajados}</td>
+      <td><span class="${estadoHoras}">${d.horas_trabajadas}</span></td>
+      <td><span class="${estadoHoras}">${d.horas_no_trabajadas}</span></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+document.getElementById('buscar').addEventListener('click', cargarAdmin);
+
+// ---------------- EXPORTAR A CSV ----------------
+document.getElementById('exportar').addEventListener('click', () => {
+  if (datosFiltrados.length === 0) {
+    alert('No hay datos para exportar');
+    return;
+  }
+
+  let csv = 'RUT,Nombre,Días Trabajados,Horas Trabajadas,Horas No Trabajadas\n';
+
+  datosFiltrados.forEach(d => {
+    csv += `${d.rut},${d.nombre},${d.dias_trabajados},${d.horas_trabajadas},${d.horas_no_trabajadas}\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `resumen_asistencia_${document.getElementById('mes').value}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// Cargar por defecto al abrir la página
+window.addEventListener('load', cargarAdmin);
+</script>
+
+</body>
+</html>

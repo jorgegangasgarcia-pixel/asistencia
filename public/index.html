@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Jocaval Asistencia</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ---------------- MODAL ADMIN ---------------- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 30px;
+      border-radius: 15px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .modal input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .modal button {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      background-color: #2a9d8f;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .cerrar {
+      float: right;
+      cursor: pointer;
+      font-size: 18px;
+      margin-top: -10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h1>🐾 Jocaval</h1>
+  <p class="subtitle">Sistema de Asistencia</p>
+
+  <input type="text" id="nombre" placeholder="Nombre">
+  <input type="text" id="rut" placeholder="RUT (12345678-9)">
+  <small class="rut-ayuda">Sin puntos, solo números y guión</small>
+
+  <div class="botones">
+    <button class="btn entrada" data-tipo="entrada">🟢 Entrada</button>
+    <button class="btn e_almuerzo" data-tipo="e_almuerzo">🍽️ E-Almuerzo</button>
+    <button class="btn s_almuerzo" data-tipo="s_almuerzo">☕ S-Almuerzo</button>
+    <button class="btn salida" data-tipo="salida">🔴 Salida</button>
+  </div>
+
+  <p id="mensaje"></p>
+
+  <div class="registros">
+    <h2>📋 Mi Historial</h2>
+    <ul id="listaRegistros"></ul>
+  </div>
+
+  <!-- Botón Admin -->
+  <button id="btnAdmin" style="margin-top:20px; background-color:#264653;">🔑 Admin</button>
+</div>
+
+<!-- Modal de login -->
+<div id="modalAdmin" class="modal">
+  <div class="modal-content">
+    <span class="cerrar" id="cerrarModal">&times;</span>
+    <h3>Acceso Admin</h3>
+    <input type="password" id="passwordAdmin" placeholder="Contraseña">
+    <button id="loginAdmin">Ingresar</button>
+    <p id="errorAdmin" style="color:red; font-size:14px;"></p>
+  </div>
+</div>
+
+<script src="scrips.js"></script>
+</body>
+</html>

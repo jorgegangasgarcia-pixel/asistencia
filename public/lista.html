@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Asistencia</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="contenedor">
+  <h1>📊 Dashboard Asistencia</h1>
+
+  <input id="rutBuscar" placeholder="Ingresa RUT">
+  <button onclick="cargarResumen()">Buscar</button>
+
+  <table id="tablaResumen">
+    <thead>
+      <tr>
+        <th>Día</th>
+        <th>Entrada</th>
+        <th>E-Almuerzo</th>
+        <th>S-Almuerzo</th>
+        <th>Salida</th>
+        <th>Horas Trabajadas</th>
+        <th>Horas No Trabajadas</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+async function cargarResumen() {
+  const rut = document.getElementById('rutBuscar').value.trim();
+  if (!rut) return;
+
+  const res = await fetch(`/resumen/${rut}`);
+  const datos = await res.json();
+
+  const tbody = document.querySelector('#tablaResumen tbody');
+  tbody.innerHTML = '';
+
+  datos.forEach(d => {
+    const tr = document.createElement('tr');
+
+    const entrada = d.entrada ? `<span class="entrada">${new Date(d.entrada).toLocaleTimeString()}</span>` : '';
+    const eAlmuerzo = d.e_almuerzo ? `<span class="e_almuerzo">${new Date(d.e_almuerzo).toLocaleTimeString()}</span>` : '-';
+    const sAlmuerzo = d.s_almuerzo ? `<span class="s_almuerzo">${new Date(d.s_almuerzo).toLocaleTimeString()}</span>` : '-';
+    const salida = d.salida ? `<span class="salida">${new Date(d.salida).toLocaleTimeString()}</span>` : '';
+
+    const estado = d.horas_trabajadas < 8 ? '⚠️ Horas incompletas' : '✅ Jornada completa';
+
+    tr.innerHTML = `
+      <td>${d.dia}</td>
+      <td>${entrada}</td>
+      <td>${eAlmuerzo}</td>
+      <td>${sAlmuerzo}</td>
+      <td>${salida}</td>
+      <td>${d.horas_trabajadas}</td>
+      <td>${d.horas_no_trabajadas}</td>
+      <td>${estado}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+</script>
+</body>
+</html>
